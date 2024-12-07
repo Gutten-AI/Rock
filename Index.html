@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Vida 💕🌹 - Rock Paper Scissors</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .game-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            width: 350px;
+            margin: 50px auto;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .game-container:hover {
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #FF1493; /* Vibrant pink */
+            margin-bottom: 20px;
+            font-family: 'Cursive', sans-serif;
+        }
+
+        .choices button {
+            padding: 15px;
+            margin: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            background-color: #ff69b4; /* Hot pink */
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        .choices button:hover {
+            background-color: #ff1493; /* Deep pink */
+        }
+
+        .score {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #4b0082; /* Indigo */
+        }
+
+        .score p {
+            font-size: 22px;
+        }
+
+        .choices {
+            margin-top: 20px;
+        }
+
+        #you-score {
+            color: #ff69b4; /* Hot pink */
+        }
+
+        #morgan-score {
+            color: #1e90ff; /* Dodger blue */
+        }
+
+        #next-round {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #32cd32; /* Lime green */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: none;
+        }
+
+        #next-round:hover {
+            background-color: #228b22; /* Forest green */
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Mi Vida 💕🌹</h1>
+        <div class="choices">
+            <button id="rock">Rock</button>
+            <button id="paper">Paper</button>
+            <button id="scissors">Scissors</button>
+        </div>
+        <div class="score">
+            <p>You Score: <span id="you-score">0</span></p>
+            <p>Morgan Score: <span id="morgan-score">0</span></p>
+        </div>
+        <div id="result"></div>
+        <button id="next-round">Tu guze tena</button>
+    </div>
+
+    <script>
+        let playerScore = 0;
+        let computerScore = 0;
+        let roundCount = 0;
+        const totalRounds = 5;
+
+        const playerScoreSpan = document.getElementById('you-score');
+        const computerScoreSpan = document.getElementById('morgan-score');
+        const resultDiv = document.getElementById('result');
+        const nextRoundButton = document.getElementById('next-round');
+
+        const choices = ['rock', 'paper', 'scissors'];
+
+        function getComputerChoice() {
+            return choices[Math.floor(Math.random() * 3)];
+        }
+
+        function determineWinner(playerChoice, computerChoice) {
+            if (playerChoice === computerChoice) {
+                return 'It\'s a tie!';
+            } else if (
+                (playerChoice === 'rock' && computerChoice === 'scissors') ||
+                (playerChoice === 'paper' && computerChoice === 'rock') ||
+                (playerChoice === 'scissors' && computerChoice === 'paper')
+            ) {
+                playerScore++;
+                playerScoreSpan.textContent = playerScore;
+                return 'You win!';
+            } else {
+                computerScore++;
+                computerScoreSpan.textContent = computerScore;
+                return 'Morgan wins!';
+            }
+        }
+
+        function playGame(playerChoice) {
+            if (roundCount >= totalRounds) {
+                return; // Do nothing after 5 rounds
+            }
+
+            const computerChoice = getComputerChoice();
+            const result = determineWinner(playerChoice, computerChoice);
+            resultDiv.textContent = `You chose ${playerChoice}, Morgan chose ${computerChoice}. ${result}`;
+            roundCount++;
+
+            if (roundCount === totalRounds) {
+                declareWinner();
+            }
+        }
+
+        function declareWinner() {
+            let winnerMessage = '';
+            if (playerScore > computerScore) {
+                winnerMessage = 'Congratulations 🎉 Mi Vida, you win!';
+            } else if (computerScore > playerScore) {
+                winnerMessage = 'Morgan wins 🎉';
+            } else {
+                winnerMessage = 'It\'s a tie! 🎉';
+            }
+            resultDiv.textContent = winnerMessage;
+            nextRoundButton.style.display = 'block';
+        }
+
+        function resetGame() {
+            playerScore = 0;
+            computerScore = 0;
+            roundCount = 0;
+            playerScoreSpan.textContent = playerScore;
+            computerScoreSpan.textContent = computerScore;
+            resultDiv.textContent = '';
+            nextRoundButton.style.display = 'none';
+        }
+
+        document.getElementById('rock').addEventListener('click', () => playGame('rock'));
+        document.getElementById('paper').addEventListener('click', () => playGame('paper'));
+        document.getElementById('scissors').addEventListener('click', () => playGame('scissors'));
+        nextRoundButton.addEventListener('click', resetGame);
+    </script>
+</body>
+  </html
